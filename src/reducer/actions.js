@@ -7,14 +7,7 @@ const {
     getActionName,
 } = require(`./helpers`);
 
-const {
-    reducerFolderPath,
-    reducerName,
-    initialStateObject,
-    simpleReducer,
-} = require(`./vars`);
-
-const getActionCreatorExport  = (actionName, prop = reducerName) => `export const ${getActionName(prop)} = (${prop}) => ({\n    type: \`${actionName}\`,\n    payload: {\n        ${prop}\n    },\n});\n\n`;
+const getActionCreatorExport  = (actionName, prop) => `export const ${getActionName(prop)} = (${prop}) => ({\n    type: \`${actionName}\`,\n    payload: {\n        ${prop}\n    },\n});\n\n`;
 
 const createAction = (prop) => {
     const actionName = createActionString(prop);
@@ -22,18 +15,23 @@ const createAction = (prop) => {
     return getActionCreatorExport(actionName, prop);
 };
 
-const getActionCreators = () => {
+const getActionCreators = ({ simpleReducer, initialStateObject, reducerName }) => {
     if (simpleReducer) {
-        return createAction();
+        return createAction(reducerName);
     } else {
         return Object.keys(initialStateObject).reduce((currentString, prop) => currentString + createAction(prop), ``);
     }
 
 };
 
-const createActionsFile = () => {
+const createActionsFile = ({
+                               reducerFolderPath,
+                               reducerName,
+                               initialStateObject,
+                               simpleReducer,
+                           }) => {
     const filename = `${reducerName}.actions.js`;
-    const content = `${getActionCreators()}`;
+    const content = `${getActionCreators({ simpleReducer, initialStateObject })}`;
 
     return createFile(reducerFolderPath, filename, content);
 };

@@ -3,11 +3,7 @@ const {
     convertCamelToConstant,
 } = require(`../helpers`);
 
-const {
-    reducerName,
-} = require(`./vars`);
-
-const createActionString = (prop = ``) => {
+const createActionString = (prop = ``, reducerName) => {
     const camelCasedString = `set${capitalizeFirstChar(reducerName)}${capitalizeFirstChar(prop)}`;
 
     return convertCamelToConstant(camelCasedString);

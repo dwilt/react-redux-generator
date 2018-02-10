@@ -6,30 +6,22 @@ const {
     getExportAllString,
 } = require(`../helpers.js`);
 
-const {
-    reducerName,
-    initialStateObject,
-    selectorsFolderPath,
-    simpleReducer
-} = require(`./vars`);
-
-const selectorFilename = `${reducerName}.selectors.js`;
-
 const getReselectImport = () => {
     return getImportStatement([`createSelector`], `reselect`);
 };
 
-const getReducerSelector = () => {
+const getReducerSelector = ({ reducerName }) => {
     return `const ${reducerName}Selector = state => state.${reducerName};\n\n`;
 };
 
-const getPropSelectors = () => {
+const getPropSelectors = ({ reducerName,
+                              initialStateObject }) => {
     return Object.keys(initialStateObject).reduce((currentString, prop) => {
         return currentString + `export const ${reducerName}${capitalizeFirstChar(prop)}Selector = createSelector(\n    ${reducerName}Selector,\n    ${reducerName} => ${reducerName}.${prop}\n);\n\n`;
     }, ``);
 };
 
-const writeIndexFile = async () => {
+const writeIndexFile = async ({  selectorsFolderPath }) => {
     const files = await getFileNames(selectorsFolderPath);
     const selectors = files.filter(file => file !== `index.js`);
 
@@ -40,19 +32,26 @@ const writeIndexFile = async () => {
     return createFile(selectorsFolderPath, `index.js`, content);
 };
 
-const createSelectorsFile = () => {
-    let content = `${getReducerSelector()}`;
+const createSelectorsFile = ({  selectorsFolderPath,
+                                 simpleReducer, reducerName, initialStateObject }) => {
+    let content = `${getReducerSelector({
+        reducerName,
+    })}`;
 
     if (!simpleReducer) {
-        content = `${getReselectImport()}${content}${getPropSelectors()}`;
+        content = `${getReselectImport()}${content}${getPropSelectors({ reducerName,
+            initialStateObject })}`;
     }
 
-    return createFile(selectorsFolderPath, selectorFilename, content);
+    return createFile(selectorsFolderPath, `${reducerName}.selectors.js`, content);
 };
 
-const createSelector = async () => {
-    await createSelectorsFile();
-    await writeIndexFile();
+const createSelector = async ({ reducerName,
+                                  initialStateObject,
+                                  selectorsFolderPath,
+                                  simpleReducer }) => {
+    await createSelectorsFile({  selectorsFolderPath, simpleReducer, reducerName, initialStateObject });
+    await writeIndexFile({  selectorsFolderPath });
 };
 
 module.exports = createSelector;

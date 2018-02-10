@@ -6,6 +6,8 @@ const path = require(`path`);
 
 const conf = require('rc')(`rrg`, {
     componentsDirectory: `src/components`,
+    storePath: `src/store`,
+    selectorsPath: `src/selectors`,
 });
 
 switch(argv.type) {
@@ -30,8 +32,29 @@ switch(argv.type) {
 
     case `reducer`: {
         const reducer = require(`./reducer`);
+        const { storePath, selectorsPath } = conf;
+        const { name: reducerName, simple: simpleReducer } = argv;
 
-        reducer(conf);
+        const reducerFolderPath = path.join(storePath, reducerName);
+
+        const initialStateObject = !simpleReducer ? argv._.reduce((is, field) => {
+            const prop = field.split(`=`)[0];
+
+            is[prop] = field.split(`=`)[1];
+
+            return is;
+        }, {}) : null;
+
+        const options = {
+            reducerName,
+            simpleReducer,
+            storePath,
+            reducerFolderPath,
+            selectorsPath,
+            initialStateObject
+        };
+
+        reducer(options);
         break;
     }
 
