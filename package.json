@@ -1,0 +1,31 @@
+{
+  "name": "react-redux-generator",
+  "version": "1.0.0",
+  "description": "This allows you to generate React and Redux templates from the command line for your project",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dwilt/react-redux-generator.git"
+  },
+  "keywords": [
+    "react",
+    "redux"
+  ],
+  "author": "Dan Wilt",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dwilt/react-redux-generator/issues"
+  },
+  "homepage": "https://github.com/dwilt/react-redux-generator#readme",
+  "bin": {
+    "rrg": "./src/index.js"
+  },
+  "dependencies": {
+    "json-style-converter": "^1.0.3",
+    "minimist": "^1.2.0",
+    "path-exists": "^3.0.0",
+    "rc": "^1.2.5"
+  }
+}
