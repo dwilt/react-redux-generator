@@ -2,7 +2,7 @@ const createReducer = require(`./reducer.js`);
 const createActionsFile = require(`./actions.js`);
 const createSelector = require(`./selectors.js`);
 
-const init = async ({
+module.exports = async ({
     reducerName,
     simpleReducer,
     storePath,
@@ -23,7 +23,10 @@ const init = async ({
         initialStateObject,
         simpleReducer,
     });
-    await createSelector();
+    await createSelector({
+        reducerName,
+        initialStateObject,
+        selectorsPath,
+        simpleReducer,
+    });
 };
-
-init();

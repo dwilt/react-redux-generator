@@ -7,8 +7,8 @@ const getActionCreatorExport = (actionName, prop) =>
         prop
     )} = (${prop}) => ({\n    type: \`${actionName}\`,\n    payload: {\n        ${prop}\n    },\n});\n\n`;
 
-const createAction = (prop) => {
-    const actionName = createActionString(prop);
+const createAction = (prop, reducerName) => {
+    const actionName = createActionString(prop, reducerName);
 
     return getActionCreatorExport(actionName, prop);
 };
@@ -19,10 +19,10 @@ const getActionCreators = ({
     reducerName,
 }) => {
     if (simpleReducer) {
-        return createAction(reducerName);
+        return createAction(``, reducerName);
     } else {
         return Object.keys(initialStateObject).reduce(
-            (currentString, prop) => currentString + createAction(prop),
+            (currentString, prop) => currentString + createAction(prop, reducerName),
             ``
         );
     }
@@ -38,6 +38,7 @@ const createActionsFile = ({
     const content = `${getActionCreators({
         simpleReducer,
         initialStateObject,
+        reducerName,
     })}`;
 
     return createFile(reducerFolderPath, filename, content);

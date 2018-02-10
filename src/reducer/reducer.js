@@ -11,7 +11,7 @@ const path = require(`path`);
 
 const { createActionString, getActionName } = require(`./helpers`);
 
-const getActionsImportStatement = ({ simpleReducer, reducerName }) => {
+const getActionsImportStatement = ({ simpleReducer, reducerName, initialStateObject }) => {
     const importStrings = simpleReducer
         ? [getActionName(reducerName)]
         : Object.keys(initialStateObject).map((prop) => getActionName(prop));
@@ -48,7 +48,7 @@ const getReducerExport = ({
     if (simpleReducer) {
         initialState = simpleReducer;
         const reducerFunction = createReducerFunction(
-            createActionString(),
+            createActionString(``, reducerName),
             reducerName,
             { simpleReducer, reducerName }
         );
@@ -62,7 +62,7 @@ const getReducerExport = ({
 
         Object.keys(initialStateObject).forEach((prop) => {
             const reducerFunction = createReducerFunction(
-                createActionString(prop),
+                createActionString(prop, reducerName),
                 prop,
                 { simpleReducer, reducerName }
             );
@@ -87,6 +87,7 @@ const createReducerFile = ({
     const actionsImport = getActionsImportStatement({
         simpleReducer,
         reducerName,
+        initialStateObject,
     });
     const helpersImport = getHelpersImportStatement();
     const reducersExport = getReducerExport({
@@ -154,7 +155,7 @@ const createReducer = async ({
         simpleReducer,
         initialStateObject,
     });
-    await createReducersFile({ storePath });
+    // await createReducersFile({ storePath });
 };
 
 module.exports = createReducer;

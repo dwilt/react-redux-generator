@@ -25,19 +25,19 @@ const getPropSelectors = ({ reducerName, initialStateObject }) => {
     }, ``);
 };
 
-const writeIndexFile = async ({ selectorsFolderPath }) => {
-    const files = await getFileNames(selectorsFolderPath);
+const writeIndexFile = async ({ selectorsPath }) => {
+    const files = await getFileNames(selectorsPath);
     const selectors = files.filter((file) => file !== `index.js`);
 
     const content = selectors.reduce((current, file) => {
         return current + `${getExportAllString(file.split(`.js`)[0])}\n`;
     }, ``);
 
-    return createFile(selectorsFolderPath, `index.js`, content);
+    return createFile(selectorsPath, `index.js`, content);
 };
 
 const createSelectorsFile = ({
-    selectorsFolderPath,
+    selectorsPath,
     simpleReducer,
     reducerName,
     initialStateObject,
@@ -54,7 +54,7 @@ const createSelectorsFile = ({
     }
 
     return createFile(
-        selectorsFolderPath,
+        selectorsPath,
         `${reducerName}.selectors.js`,
         content
     );
@@ -63,16 +63,16 @@ const createSelectorsFile = ({
 const createSelector = async ({
     reducerName,
     initialStateObject,
-    selectorsFolderPath,
+    selectorsPath,
     simpleReducer,
 }) => {
     await createSelectorsFile({
-        selectorsFolderPath,
+        selectorsPath,
         simpleReducer,
         reducerName,
         initialStateObject,
     });
-    await writeIndexFile({ selectorsFolderPath });
+    await writeIndexFile({ selectorsPath });
 };
 
 module.exports = createSelector;
