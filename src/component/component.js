@@ -1,9 +1,6 @@
 const path = require(`path`);
 
-const {
-    existsSync,
-    mkdirSync,
-} = require(`fs`);
+const { existsSync, mkdirSync } = require(`fs`);
 
 const {
     createIndexFiles,
@@ -21,15 +18,21 @@ const createContainerFile = async ({ componentName, componentPath }) => {
     return createFile(componentPath, filename, templateContent);
 };
 
-
-const createComponentFile = async ({ componentName, hasStyles, componentPath }) => {
+const createComponentFile = async ({
+    componentName,
+    hasStyles,
+    componentPath,
+}) => {
     const filename = `${componentName}.component.js`;
     const template = path.join(__dirname, `./baseComponentTemplate.js`);
     let templateContent = await getFileContents(template);
 
     if (!hasStyles) {
         templateContent = templateContent.replace(/import styles .+\n\n/, ``);
-        templateContent = templateContent.replace(/ style={styles\.container}/, ``);
+        templateContent = templateContent.replace(
+            / style={styles\.container}/,
+            ``
+        );
     }
 
     templateContent = templateContent.replace(/COMPONENT_NAME/g, componentName);
@@ -47,7 +50,11 @@ const createComponentStylesFile = async ({ componentName, componentPath }) => {
     return createFile(componentPath, filename, templateContent);
 };
 
-const createComponentIndexFile = ({ componentName, hasContainer, componentPath }) => {
+const createComponentIndexFile = ({
+    componentName,
+    hasContainer,
+    componentPath,
+}) => {
     const filename = `index.js`;
     const extension = hasContainer ? `container` : `component`;
     const content = `export { default as ${componentName} } from './${componentName}.${extension}';\n`;
@@ -63,29 +70,46 @@ const createComponentFolder = ({ componentName, componentPath }) => {
     }
 };
 
-const createComponent = async ({ componentName, componentPath, hasStyles, hasContainer, componentsDirectory }) => {
+const createComponent = async ({
+    componentName,
+    componentPath,
+    hasStyles,
+    hasContainer,
+    componentsDirectory,
+}) => {
     console.log(`componentPath`, componentPath);
 
     createComponentFolder({ componentName, componentPath });
 
-    const files = [createComponentIndexFile({
-        componentName,
-        hasContainer,
-        componentPath
-    }), createComponentFile({
-        componentName, hasStyles, componentPath
-    })];
+    const files = [
+        createComponentIndexFile({
+            componentName,
+            hasContainer,
+            componentPath,
+        }),
+        createComponentFile({
+            componentName,
+            hasStyles,
+            componentPath,
+        }),
+    ];
 
     if (hasStyles) {
-        files.push(createComponentStylesFile({
-            componentName, componentPath
-        }));
+        files.push(
+            createComponentStylesFile({
+                componentName,
+                componentPath,
+            })
+        );
     }
 
     if (hasContainer) {
-        files.push(createContainerFile({
-            componentName, componentPath
-        }));
+        files.push(
+            createContainerFile({
+                componentName,
+                componentPath,
+            })
+        );
     }
 
     await Promise.all(files);

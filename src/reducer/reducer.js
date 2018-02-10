@@ -5,19 +5,16 @@ const {
     getFolderNames,
 } = require(`../helpers.js`);
 
-const {
-    readdirSync,
-} = require(`fs`);
+const { readdirSync } = require(`fs`);
 
 const path = require(`path`);
 
-const {
-    createActionString,
-    getActionName,
-} = require(`./helpers`);
+const { createActionString, getActionName } = require(`./helpers`);
 
 const getActionsImportStatement = ({ simpleReducer, reducerName }) => {
-    const importStrings = simpleReducer ? [getActionName(reducerName)] : Object.keys(initialStateObject).map(prop => getActionName(prop));
+    const importStrings = simpleReducer
+        ? [getActionName(reducerName)]
+        : Object.keys(initialStateObject).map((prop) => getActionName(prop));
 
     return getImportStatement(importStrings, `./${reducerName}.actions`);
 };
@@ -26,42 +23,77 @@ const getHelpersImportStatement = () => {
     return getImportStatement([`createReducer`], `/helpers`);
 };
 
-const createReducerFunction = (action, prop, { simpleReducer, reducerName}) => {
-    const reducerBody = simpleReducer ? reducerName : `({\n        ...state,\n        ${prop},\n    })`;
+const createReducerFunction = (
+    action,
+    prop,
+    { simpleReducer, reducerName }
+) => {
+    const reducerBody = simpleReducer
+        ? reducerName
+        : `({\n        ...state,\n        ${prop},\n    })`;
 
-    return `[${getActionName(prop)}().type]: (state, { ${prop} }) => ${reducerBody}`;
+    return `[${getActionName(
+        prop
+    )}().type]: (state, { ${prop} }) => ${reducerBody}`;
 };
 
-const getReducerExport = ({ reducerName, simpleReducer, initialStateObject }) => {
+const getReducerExport = ({
+    reducerName,
+    simpleReducer,
+    initialStateObject,
+}) => {
     let reducerActions = [];
     let initialState = null;
 
     if (simpleReducer) {
         initialState = simpleReducer;
-        const reducerFunction = createReducerFunction(createActionString(), reducerName, { simpleReducer, reducerName});
+        const reducerFunction = createReducerFunction(
+            createActionString(),
+            reducerName,
+            { simpleReducer, reducerName }
+        );
 
         reducerActions.push(reducerFunction);
     } else {
-        const initialStateObjectArray = Object.keys(initialStateObject).map(key => `${key}: ${initialStateObject[key]}`);
+        const initialStateObjectArray = Object.keys(initialStateObject).map(
+            (key) => `${key}: ${initialStateObject[key]}`
+        );
         initialState = createObjectString(initialStateObjectArray);
 
-
-        Object.keys(initialStateObject).forEach(prop => {
-            const reducerFunction = createReducerFunction(createActionString(prop), prop, { simpleReducer, reducerName});
+        Object.keys(initialStateObject).forEach((prop) => {
+            const reducerFunction = createReducerFunction(
+                createActionString(prop),
+                prop,
+                { simpleReducer, reducerName }
+            );
 
             reducerActions.push(reducerFunction);
         });
     }
 
-    return `export default createReducer(${initialState},${createObjectString(reducerActions)});`;
+    return `export default createReducer(${initialState},${createObjectString(
+        reducerActions
+    )});`;
 };
 
-const createReducerFile = ({ reducerName, reducerFolderPath, simpleReducer, initialStateObject }) => {
+const createReducerFile = ({
+    reducerName,
+    reducerFolderPath,
+    simpleReducer,
+    initialStateObject,
+}) => {
     const filename = `${reducerName}.reducer.js`;
 
-    const actionsImport = getActionsImportStatement({ simpleReducer, reducerName });
+    const actionsImport = getActionsImportStatement({
+        simpleReducer,
+        reducerName,
+    });
     const helpersImport = getHelpersImportStatement();
-    const reducersExport = getReducerExport({ reducerName, simpleReducer, initialStateObject });
+    const reducersExport = getReducerExport({
+        reducerName,
+        simpleReducer,
+        initialStateObject,
+    });
 
     const content = `${actionsImport}${helpersImport}${reducersExport}`;
 
@@ -87,7 +119,10 @@ const getReducerImports = async ({ storePath }) => {
     const reducers = await getReducerFiles({ storePath });
 
     return reducers.reduce((current, reducer) => {
-        return current + `import ${reducer} from './${reducer}/${reducer}.reducer';\n`;
+        return (
+            current +
+            `import ${reducer} from './${reducer}/${reducer}.reducer';\n`
+        );
     }, ``);
 };
 
@@ -106,8 +141,19 @@ const createReducersFile = async ({ storePath }) => {
     return createFile(storePath, filename, content);
 };
 
-const createReducer = async ({ reducerFolderPath, reducerName, simpleReducer, initialStateObject, storePath }) => {
-    await createReducerFile({ reducerName, reducerFolderPath, simpleReducer, initialStateObject });
+const createReducer = async ({
+    reducerFolderPath,
+    reducerName,
+    simpleReducer,
+    initialStateObject,
+    storePath,
+}) => {
+    await createReducerFile({
+        reducerName,
+        reducerFolderPath,
+        simpleReducer,
+        initialStateObject,
+    });
     await createReducersFile({ storePath });
 };
 

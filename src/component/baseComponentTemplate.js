@@ -1,6 +1,4 @@
-import React, {
-    PureComponent,
-} from 'react';
+import React, { PureComponent } from 'react';
 
 import PropTypes from 'prop-types';
 
@@ -10,10 +8,8 @@ export default class COMPONENT_NAME extends PureComponent {
     static propTypes = {};
 
     render() {
-        const {  } = this.props;
+        const {} = this.props;
 
-        return (
-            <div className={`COMPONENT_NAME`}>COMPONENT_NAME</div>
-        );
+        return <div className={`COMPONENT_NAME`}>COMPONENT_NAME</div>;
     }
 }

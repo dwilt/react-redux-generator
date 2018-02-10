@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "This allows you to generate React and Redux templates from the command line for your project",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "format": "prettier-eslint --write \"src/**/*.js\" --eslint-config-path .eslintrc --single-quote --arrow-parens always"
   },
   "repository": {
     "type": "git",
@@ -27,5 +28,10 @@
     "minimist": "^1.2.0",
     "path-exists": "^3.0.0",
     "rc": "^1.2.5"
+  },
+  "devDependencies": {
+    "babel-eslint": "^8.2.1",
+    "eslint-plugin-react": "^7.6.1",
+    "prettier-eslint-cli": "^4.7.0"
   }
 }

@@ -1,16 +1,8 @@
-const {
-    writeFile,
-    readdir,
-    lstatSync,
-    readFile,
-    mkdir,
-} = require(`fs`);
+const { writeFile, readdir, lstatSync, readFile, mkdir } = require(`fs`);
 
 const path = require(`path`);
 
-const {
-    camelToSnakeCase,
-} = require(`json-style-converter`);
+const { camelToSnakeCase } = require(`json-style-converter`);
 
 const pathExists = require(`path-exists`);
 
@@ -30,7 +22,8 @@ const createObjectString = (lines) => {
     return `{\n${linesString}\n}`;
 };
 
-const capitalizeFirstChar = string => string.charAt(0).toUpperCase() + string.substring(1);
+const capitalizeFirstChar = (string) =>
+    string.charAt(0).toUpperCase() + string.substring(1);
 
 const getImportStatement = (imports = [], file) => {
     return `import ${createObjectString(imports)} from '${file}';\n\n`;
@@ -105,20 +98,22 @@ const checkIfFileOrFolderExists = (fileOrFolderPath) => {
 const getFolderNames = async (parentFolder) => {
     const files = await getFolderContent(parentFolder);
 
-    return files
-        .filter(source => lstatSync(`${parentFolder}/${source}`).isDirectory());
+    return files.filter((source) =>
+        lstatSync(`${parentFolder}/${source}`).isDirectory()
+    );
 };
 
 const getFileNames = async (parentFolder) => {
     const files = await getFolderContent(parentFolder);
 
-    return files
-        .filter(source => !lstatSync(`${parentFolder}/${source}`).isDirectory());
+    return files.filter(
+        (source) => !lstatSync(`${parentFolder}/${source}`).isDirectory()
+    );
 };
 
 const getExportAllString = (folder) => `export * from './${folder}';`;
 
-const convertCamelToConstant = string => {
+const convertCamelToConstant = (string) => {
     let copy = string;
     copy[0] = copy[0].toLowerCase();
 
@@ -126,7 +121,7 @@ const convertCamelToConstant = string => {
 };
 
 const createFolderIndexFiles = async (parentFolder) => {
-    const folders = await getFolderNames(parentFolder)
+    const folders = await getFolderNames(parentFolder);
 
     if (folders.length) {
         const filename = `index.js`;
@@ -136,7 +131,7 @@ const createFolderIndexFiles = async (parentFolder) => {
 
         await createFile(parentFolder, filename, content);
 
-        folders.forEach(folder => {
+        folders.forEach((folder) => {
             const folderPath = path.join(parentFolder, folder);
 
             createFolderIndexFiles(folderPath);
