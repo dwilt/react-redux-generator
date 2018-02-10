@@ -153,8 +153,6 @@ module.exports = {
     getFileNames,
     getExportAllString,
     getFileContents,
-    checkIfFileOrFolderExists,
-    createFolder,
     convertCamelToConstant,
     createIndexFiles: createFolderIndexFiles,
 };
