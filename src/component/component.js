@@ -64,7 +64,9 @@ const createComponentFolder = ({ componentName, componentPath }) => {
 };
 
 const createComponent = async ({ componentName, componentPath, hasStyles, hasContainer, componentsDirectory }) => {
-    createComponentFolder({ componentName, componentPath  });
+    console.log(`componentPath`, componentPath);
+
+    createComponentFolder({ componentName, componentPath });
 
     const files = [createComponentIndexFile({
         componentName,

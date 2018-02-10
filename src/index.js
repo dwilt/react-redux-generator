@@ -3,25 +3,24 @@
 const argv = require(`minimist`)(process.argv.slice(2));
 const path = require(`path`);
 
-const component = require(`./component`);
-// const reducer = require(`./reducer`);
 
 const conf = require('rc')(`rrg`, {
     componentsDirectory: `src/components`,
 });
 
-const type = argv.type;
-
-switch(type) {
+switch(argv.type) {
     case `component`: {
+        const component = require(`./component`);
+
         const { componentsDirectory } = conf;
         const { path: componentPath, name: componentName } = argv;
+        const fullComponentPath = path.join(process.cwd(), componentsDirectory, componentPath || ``, componentName);
 
         const options = {
             ...argv,
             componentsDirectory,
             componentName,
-            componentPath: path.join(process.cwd(), componentsDirectory, componentPath || ``),
+            componentPath: fullComponentPath,
         };
 
         component(options);
@@ -29,9 +28,12 @@ switch(type) {
     }
 
 
-    case `reducer`:
+    case `reducer`: {
+        const reducer = require(`./reducer`);
+
         reducer(conf);
         break;
+    }
 
     default:
         break;
