@@ -62,7 +62,7 @@ const getReducerExport = ({
 
         Object.keys(initialStateObject).forEach((prop) => {
             const reducerFunction = createReducerFunction(
-                createActionString(prop, reducerName),
+                createActionString(prop, re),
                 prop,
                 { simpleReducer, reducerName }
             );
@@ -155,7 +155,7 @@ const createReducer = async ({
         simpleReducer,
         initialStateObject,
     });
-    // await createReducersFile({ storePath });
+    await createReducersFile({ storePath });
 };
 
 module.exports = createReducer;

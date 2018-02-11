@@ -1,4 +1,8 @@
+const getDirName = require('path').dirname;
+
 const { writeFile, readdir, lstatSync, readFile, mkdir, mkdirSync } = require(`fs`);
+
+const mkdirp = require('mkdirp');
 
 const path = require(`path`);
 
@@ -28,17 +32,19 @@ const getImportStatement = (imports = [], file) => {
 };
 
 const createFile = async (folder, filename, content) => {
-    const filePath = `${folder}/${filename}`;
+    console.log(`folder`, folder);
+    console.log(`filename`, filename);
+    console.log(`content`, content);
 
     return new Promise((resolve, reject) => {
-        writeFile(filePath, content, (err) => {
+        const fullpath = path.join(process.cwd(), folder);
+
+        mkdirp(fullpath, (err) => {
             if (err) {
                 reject(err);
             }
 
-            console.info(`${filename} created at ${filePath}`);
-
-            resolve();
+            writeFile(path.join(fullpath, filename), content, resolve);
         });
     });
 };

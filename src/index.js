@@ -3,8 +3,9 @@
 const path = require(`path`);
 
 const {
-   getComponentProps,
-   getType
+    getComponentProps,
+    getReducerProps,
+    getType
 } = require(`./prompts`);
 
 const conf = require(`rc`)(`rrg`, {
@@ -12,65 +13,6 @@ const conf = require(`rc`)(`rrg`, {
     storePath: `src/store`,
     selectorsPath: `src/selectors`,
 });
-
-// switch (argv.type) {
-// case `component`: {
-//     const component = require(`./component`);
-//
-//     const { componentsDirectory } = conf;
-//     const { path: componentPath, name: componentName } = argv;
-//     const fullComponentPath = path.join(
-//         process.cwd(),
-//         componentsDirectory,
-//         componentPath || ``,
-//         componentName
-//     );
-//
-//     const options = {
-//         ...argv,
-//         componentsDirectory,
-//         componentName,
-//         componentPath: fullComponentPath,
-//     };
-//
-//     component(options);
-//     break;
-// }
-//
-// case `reducer`: {
-//     const reducer = require(`./reducer`);
-//     const { storePath, selectorsPath } = conf;
-//     const { name: reducerName, simple: simpleReducer } = argv;
-//
-//     const reducerFolderPath = path.join(storePath, reducerName);
-//
-//     const initialStateObject = !simpleReducer
-//         ? argv._.reduce((is, field) => {
-//             const prop = field.split(`=`)[0];
-//
-//             is[prop] = field.split(`=`)[1];
-//
-//             return is;
-//         }, {})
-//         : null;
-//
-//     const options = {
-//         reducerName,
-//         simpleReducer,
-//         storePath,
-//         reducerFolderPath,
-//         selectorsPath,
-//         initialStateObject,
-//     };
-//
-//     reducer(options);
-//     break;
-// }
-//
-// default:
-//     break;
-// }
-
 
 async function questions() {
     const type = await getType();
@@ -93,6 +35,22 @@ async function questions() {
             };
 
             component(options);
+            break;
+        }
+
+        case `reducer`: {
+            const props = await getReducerProps();
+
+            const reducer = require(`./reducer`);
+
+            reducer({
+                ...props,
+                ...conf,
+                reducerFolderPath: path.join(conf.storePath, props.reducerName),
+                initialStateObject: props.initialState
+            });
+
+            break;
         }
     }
 }

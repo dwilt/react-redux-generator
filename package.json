@@ -27,6 +27,7 @@
     "inquirer": "^5.1.0",
     "json-style-converter": "^1.0.3",
     "minimist": "^1.2.0",
+    "mkdirp": "^0.5.1",
     "path-exists": "^3.0.0",
     "rc": "^1.2.5"
   },
