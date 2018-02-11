@@ -1,11 +1,12 @@
 const path = require(`path`);
 
-const { existsSync, mkdirSync } = require(`fs`);
+const { existsSync } = require(`fs`);
 
 const {
     createIndexFiles,
     createFile,
     getFileContents,
+    mkDirByPathSync
 } = require(`../helpers.js`);
 
 const createContainerFile = async ({ componentName, componentPath }) => {
@@ -66,7 +67,7 @@ const createComponentFolder = ({ componentName, componentPath }) => {
     if (existsSync(componentPath)) {
         console.error(`${componentName} already exists at: ${componentPath}`);
     } else {
-        mkdirSync(componentPath);
+        mkDirByPathSync(componentPath);
     }
 };
 
@@ -77,8 +78,6 @@ const createComponent = async ({
     hasContainer,
     componentsDirectory,
 }) => {
-    console.log(`componentPath`, componentPath);
-
     createComponentFolder({ componentName, componentPath });
 
     const files = [

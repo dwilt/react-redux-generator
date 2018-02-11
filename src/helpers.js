@@ -1,10 +1,8 @@
-const { writeFile, readdir, lstatSync, readFile, mkdir } = require(`fs`);
+const { writeFile, readdir, lstatSync, readFile, mkdir, mkdirSync } = require(`fs`);
 
 const path = require(`path`);
 
 const { camelToSnakeCase } = require(`json-style-converter`);
-
-const pathExists = require(`path-exists`);
 
 const createObjectString = (lines) => {
     const linesString = lines.reduce((currentString, line, i) => {
@@ -32,10 +30,6 @@ const getImportStatement = (imports = [], file) => {
 const createFile = async (folder, filename, content) => {
     const filePath = `${folder}/${filename}`;
 
-    if (!await checkIfFileOrFolderExists(folder)) {
-        await createFolder(folder);
-    }
-
     return new Promise((resolve, reject) => {
         writeFile(filePath, content, (err) => {
             if (err) {
@@ -61,24 +55,6 @@ const getFileContents = (filePath) => {
     });
 };
 
-const createFolder = async (folderPath) => {
-    const exists = await checkIfFileOrFolderExists(folderPath);
-
-    if (exists) {
-        return Promise.resolve();
-    } else {
-        return new Promise((resolve, reject) => {
-            mkdir(folderPath, (err) => {
-                if (err) {
-                    reject(err);
-                }
-
-                resolve();
-            });
-        });
-    }
-};
-
 const getFolderContent = (folderPath) => {
     return new Promise((resolve, reject) => {
         readdir(folderPath, (err, files) => {
@@ -89,10 +65,6 @@ const getFolderContent = (folderPath) => {
             resolve(files);
         });
     });
-};
-
-const checkIfFileOrFolderExists = (fileOrFolderPath) => {
-    return pathExists(fileOrFolderPath);
 };
 
 const getFolderNames = async (parentFolder) => {
@@ -139,6 +111,33 @@ const createFolderIndexFiles = async (parentFolder) => {
     }
 };
 
+function mkDirByPathSync(targetDir) {
+    const sep = path.sep;
+    const initDir = path.isAbsolute(targetDir) ? sep : '';
+    const baseDir = process.cwd();
+
+    targetDir.split(sep).reduce((parentDir, childDir) => {
+        const curDir = path.resolve(baseDir, parentDir, childDir);
+
+        console.log(`curDir: ${curDir}`);
+
+        try {
+            mkdirSync(curDir);
+            console.log(`Directory ${curDir} created!`);
+        } catch (err) {
+            console.log(err);
+
+            if (err.code !== 'EEXIST') {
+                throw err;
+            }
+
+            console.log(`Directory ${curDir} already exists!`);
+        }
+
+        return curDir;
+    }, initDir);
+}
+
 module.exports = {
     capitalizeFirstChar,
     getImportStatement,
@@ -150,4 +149,5 @@ module.exports = {
     getFileContents,
     convertCamelToConstant,
     createIndexFiles: createFolderIndexFiles,
+    mkDirByPathSync,
 };
