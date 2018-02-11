@@ -1,19 +1,6 @@
 const inquirer = require(`inquirer`);
 
-function convertStringValue(value) {
-    switch (value) {
-    case `[]`:
-        return [];
-    case `true`:
-        return true;
-    case `false`:
-        return false;
-    case `''`:
-        return ``;
-    default:
-        return null;
-    }
-}
+const { convertStringValue } = require(`./helpers`);
 
 function getType() {
     return inquirer
@@ -94,7 +81,7 @@ async function getReducerProps() {
                 },
             ])
             .then(({ initialState }) => ({
-                initialState: convertStringValue(initialState),
+                initialState: JSON.parse(initialState),
             }));
 
         return {
@@ -127,7 +114,7 @@ async function getReducerProps() {
                     },
                 ]);
 
-                initialState[name] = convertStringValue(value);
+                initialState[name] = JSON.parse(value);
 
                 console.log(`-------------------------------------`);
                 console.log(`Reducer Current State:`, initialState);

@@ -50,7 +50,8 @@ const getReducerExport = ({
     let initialState = null;
 
     if (simpleReducer) {
-        initialState = simpleReducer;
+        initialState = JSON.stringify(initialStateObject);
+
         const reducerFunction = createReducerFunction(
             createActionString(``, reducerName),
             reducerName,
@@ -75,7 +76,7 @@ const getReducerExport = ({
         });
     }
 
-    return `export default createReducer(${initialState},${createObjectString(
+    return `export default createReducer(${initialState}, ${createObjectString(
         reducerActions
     )});`;
 };
