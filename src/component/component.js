@@ -6,7 +6,7 @@ const {
     createIndexFiles,
     createFile,
     getFileContents,
-    mkDirByPathSync
+    mkDirByPathSync,
 } = require(`../helpers.js`);
 
 const createContainerFile = async ({ componentName, componentPath }) => {

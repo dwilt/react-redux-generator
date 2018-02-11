@@ -11,7 +11,11 @@ const path = require(`path`);
 
 const { createActionString, getActionName } = require(`./helpers`);
 
-const getActionsImportStatement = ({ simpleReducer, reducerName, initialStateObject }) => {
+const getActionsImportStatement = ({
+    simpleReducer,
+    reducerName,
+    initialStateObject,
+}) => {
     const importStrings = simpleReducer
         ? [getActionName(reducerName)]
         : Object.keys(initialStateObject).map((prop) => getActionName(prop));

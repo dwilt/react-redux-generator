@@ -22,7 +22,8 @@ const getActionCreators = ({
         return createAction(``, reducerName);
     } else {
         return Object.keys(initialStateObject).reduce(
-            (currentString, prop) => currentString + createAction(prop, reducerName),
+            (currentString, prop) =>
+                currentString + createAction(prop, reducerName),
             ``
         );
     }

@@ -53,11 +53,7 @@ const createSelectorsFile = ({
         })}`;
     }
 
-    return createFile(
-        selectorsPath,
-        `${reducerName}.selectors.js`,
-        content
-    );
+    return createFile(selectorsPath, `${reducerName}.selectors.js`, content);
 };
 
 const createSelector = async ({

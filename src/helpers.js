@@ -1,8 +1,15 @@
-const getDirName = require('path').dirname;
+const getDirName = require(`path`).dirname;
 
-const { writeFile, readdir, lstatSync, readFile, mkdir, mkdirSync } = require(`fs`);
+const {
+    writeFile,
+    readdir,
+    lstatSync,
+    readFile,
+    mkdir,
+    mkdirSync,
+} = require(`fs`);
 
-const mkdirp = require('mkdirp');
+const mkdirp = require(`mkdirp`);
 
 const path = require(`path`);
 
@@ -119,7 +126,7 @@ const createFolderIndexFiles = async (parentFolder) => {
 
 function mkDirByPathSync(targetDir) {
     const sep = path.sep;
-    const initDir = path.isAbsolute(targetDir) ? sep : '';
+    const initDir = path.isAbsolute(targetDir) ? sep : ``;
     const baseDir = process.cwd();
 
     targetDir.split(sep).reduce((parentDir, childDir) => {
@@ -133,7 +140,7 @@ function mkDirByPathSync(targetDir) {
         } catch (err) {
             console.log(err);
 
-            if (err.code !== 'EEXIST') {
+            if (err.code !== `EEXIST`) {
                 throw err;
             }
 
