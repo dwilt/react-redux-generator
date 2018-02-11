@@ -43,6 +43,8 @@ async function questions() {
     case `reducer`: {
         const props = await getReducerProps();
 
+        console.log(`props: `, props);
+
         const reducer = require(`./reducer`);
 
         reducer({

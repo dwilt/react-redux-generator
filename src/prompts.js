@@ -79,12 +79,12 @@ async function getReducerProps() {
             },
         ])
         .then((props) => ({
-            ...props,
+            reducerName: props.reducerName,
             simpleReducer: !props.objectReducer,
         }));
 
     if (initialProps.simpleReducer) {
-        const initialState = await inquirer
+        const { initialState } = await inquirer
             .prompt([
                 {
                     type: `list`,

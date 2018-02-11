@@ -1,7 +1,11 @@
-import { setTestAction } from './test.actions';
+import {
+    setTestAction,
+} from './test.actions';
 
-import { createReducer } from '/helpers';
+import {
+    createReducer,
+} from '/helpers';
 
-export default createReducer(true, {
+export default createReducer(true,{
     [setTestAction().type]: (state, { test }) => test,
 });

@@ -1,1 +1,2 @@
-const testSelector = (state) => state.test;
+const testSelector = state => state.test;
+
