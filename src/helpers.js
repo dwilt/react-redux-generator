@@ -1,13 +1,4 @@
-const getDirName = require(`path`).dirname;
-
-const {
-    writeFile,
-    readdir,
-    lstatSync,
-    readFile,
-    mkdir,
-    mkdirSync,
-} = require(`fs`);
+const { writeFile, readdir, lstatSync, readFile, mkdirSync } = require(`fs`);
 
 const mkdirp = require(`mkdirp`);
 
@@ -39,10 +30,6 @@ const getImportStatement = (imports = [], file) => {
 };
 
 const createFile = async (folder, filename, content) => {
-    console.log(`folder`, folder);
-    console.log(`filename`, filename);
-    console.log(`content`, content);
-
     return new Promise((resolve, reject) => {
         const fullpath = path.join(process.cwd(), folder);
 
