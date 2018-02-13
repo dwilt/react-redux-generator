@@ -67,7 +67,7 @@ const getReducerExport = ({
 
         Object.keys(initialStateObject).forEach((prop) => {
             const reducerFunction = createReducerFunction(
-                createActionString(prop, re),
+                createActionString(prop, reducerName),
                 prop,
                 { simpleReducer, reducerName }
             );
