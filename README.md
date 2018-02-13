@@ -8,13 +8,25 @@ This is a [CLI](https://en.wikipedia.org/wiki/Command-line_interface) to generat
 yarn add --dev dwilt-react-redux-generator
 ```
 
-2. Add this script to `package.json`:
+2. Add this `script` to `package.json`:
 ```json
 {
   "name": "My Project",
-  "scripts": {
-      // other scripts
+  "scripts": {      
       "generate-react-redux-template": "rrg" 
   }
 }
 ```
+
+## Run
+Run from the root of your project like so:
+```
+npm run generate-react-redux-template
+```
+
+## Configuration
+You can include a `.rrgrc` file at the root of your project with the following overrides:
+
+| Property | Type | Default | Description |
+|-------------|----------|--------------|----------------------------------------------------------------|
+| isReactNativeProject | boolean | false | This boolean tells the plugin whether it's a React Native project. If set to `true`, it will generate a `styles.js` file instead of a CSS file.
