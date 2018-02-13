@@ -29,4 +29,7 @@ You can include a `.rrgrc` file at the root of your project with the following o
 
 | Property | Type | Default | Description |
 |-------------|----------|--------------|----------------------------------------------------------------|
-| isReactNativeProject | boolean | false | This boolean tells the plugin whether it's a React Native project. If set to `true`, it will generate a `styles.js` file instead of a CSS file.
+| `isReactNativeProject` | boolean | `false` | This boolean tells the generator whether it's a React Native project. If set to `true`, it will generate a `styles.js` file instead of a CSS file.
+| `componentsDirectory` | string | `src/components` | This is the root path of all your components. The generator will use this as the root for all of your components.
+| `storePath` | string | `src/store` | This is location of your Redux store folder where the generator will place the reducer folder.
+| `selectorsPath` | string | `src/selectors` | This is folder where your [Reselect](https://github.com/reactjs/reselect) selectors are stored.
