@@ -30,14 +30,14 @@ const createComponentFile = async ({
     const template = path.join(__dirname, templateFileName);
     let templateContent = await getFileContents(template);
 
-    const importStyleString = isReactNativeProject
-        ? `import styles from './COMPONENT_NAME.styles.js';`
-        : `import './COMPONENT_NAME.css';`;
-    const classNameString = isReactNativeProject
-        ? ` style={styles.container}`
-        : ` className={\`COMPONENT_NAME\`}`;
-
     if (!hasStyles) {
+        const importStyleString = isReactNativeProject
+            ? `import styles from './COMPONENT_NAME.styles.js';\n`
+            : `import './COMPONENT_NAME.css';\n`;
+        const classNameString = isReactNativeProject
+            ? ` style={styles.container}`
+            : ` className={\`COMPONENT_NAME\`}`;
+
         templateContent = templateContent.replace(importStyleString, ``);
         templateContent = templateContent.replace(classNameString, ``);
     }

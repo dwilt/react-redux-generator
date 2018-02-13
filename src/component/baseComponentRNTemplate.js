@@ -2,6 +2,10 @@ import React, { PureComponent } from 'react';
 
 import { View } from 'react-native';
 
+import {
+
+} from 'components';
+
 import PropTypes from 'prop-types';
 
 import styles from './COMPONENT_NAME.styles.js';
