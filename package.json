@@ -1,6 +1,6 @@
 {
   "name": "dwilt-react-redux-generator",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "This allows you to generate React and Redux templates from the command line for your project",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
