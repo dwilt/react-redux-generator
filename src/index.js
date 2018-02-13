@@ -8,6 +8,7 @@ const conf = require(`rc`)(`rrg`, {
     componentsDirectory: `src/components`,
     storePath: `src/store`,
     selectorsPath: `src/selectors`,
+    isReactNativeProject: false,
 });
 
 async function questions() {
@@ -21,7 +22,7 @@ async function questions() {
 
         const component = require(`./component`);
 
-        const { componentsDirectory } = conf;
+        const { componentsDirectory, isReactNativeProject } = conf;
         const { path: componentPath, name: componentName } = props;
         const localComponentPath = path.join(
             componentsDirectory,
@@ -31,6 +32,7 @@ async function questions() {
 
         const options = {
             ...props,
+            isReactNativeProject,
             componentsDirectory,
             componentName,
             componentPath: localComponentPath,
