@@ -36,23 +36,28 @@ async function questions() {
             componentPath: localComponentPath,
         };
 
-        component(options);
+        await component(options);
+
+        console.log(`Created ${componentName} in ${localComponentPath}!`);
+
         break;
     }
 
     case `reducer`: {
         const props = await getReducerProps();
 
-        console.log(`props: `, props);
-
         const reducer = require(`./reducer`);
 
-        reducer({
+        await reducer({
             ...props,
             ...conf,
             reducerFolderPath: path.join(conf.storePath, props.reducerName),
             initialStateObject: props.initialState,
         });
+
+        console.log(
+            `Created '${props.reducerName}' reducer, actions and selectors!`
+        );
 
         break;
     }

@@ -1,7 +1,5 @@
 const inquirer = require(`inquirer`);
 
-const { convertStringValue } = require(`./helpers`);
-
 function getType() {
     return inquirer
         .prompt([
@@ -31,11 +29,12 @@ function getComponentProps({ componentsDirectory }) {
                 type: `input`,
                 name: `name`,
                 message: `What's the name of your component?`,
+                default: `MyComponent`,
             },
             {
                 type: `input`,
                 name: `path`,
-                message: `What folder is it in? (root folder is ${componentsDirectory})`,
+                message: `What folder is it in (relative to ${componentsDirectory})?`,
             },
             {
                 type: `confirm`,
@@ -108,13 +107,17 @@ async function getReducerProps() {
                         message: `What's the name of the property (For example: isLoading)?`,
                     },
                     {
-                        type: `choices`,
+                        type: `input`,
                         name: `value`,
                         message: `And it's initial value?`,
+                        default: ``,
                     },
                 ]);
 
-                initialState[name] = JSON.parse(value);
+                initialState[name] =
+                    typeof value === `object` || typeof value === `boolean`
+                        ? JSON.parse(value)
+                        : value;
 
                 console.log(`-------------------------------------`);
                 console.log(`Reducer Current State:`, initialState);

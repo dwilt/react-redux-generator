@@ -119,19 +119,12 @@ function mkDirByPathSync(targetDir) {
     targetDir.split(sep).reduce((parentDir, childDir) => {
         const curDir = path.resolve(baseDir, parentDir, childDir);
 
-        console.log(`curDir: ${curDir}`);
-
         try {
             mkdirSync(curDir);
-            console.log(`Directory ${curDir} created!`);
         } catch (err) {
-            console.log(err);
-
             if (err.code !== `EEXIST`) {
                 throw err;
             }
-
-            console.log(`Directory ${curDir} already exists!`);
         }
 
         return curDir;

@@ -64,11 +64,7 @@ const createComponentIndexFile = ({
 };
 
 const createComponentFolder = ({ componentName, componentPath }) => {
-    if (existsSync(componentPath)) {
-        console.error(`${componentName} already exists at: ${componentPath}`);
-    } else {
-        mkDirByPathSync(componentPath);
-    }
+    mkDirByPathSync(componentPath);
 };
 
 const createComponent = async ({
