@@ -34,11 +34,11 @@ const createReducerFunction = (
 ) => {
     const reducerBody = simpleReducer
         ? reducerName
-        : `({\n        ...state,\n        ${prop},\n    })`;
+        : `({\n        ...st,\n        ${prop},\n    })`;
 
     return `[${getActionName(
         prop
-    )}().type]: (state, { ${prop} }) => ${reducerBody}`;
+    )}().type]: (st, { ${prop} }) => ${reducerBody}`;
 };
 
 const getReducerExport = ({

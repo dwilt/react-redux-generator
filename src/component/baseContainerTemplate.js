@@ -6,6 +6,6 @@ import {} from 'store/';
 
 import COMPONENT_NAME from './COMPONENT_NAME.component';
 
-export default connect((state) => {
+export default connect((st) => {
     return {};
 }, {})(COMPONENT_NAME);
