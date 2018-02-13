@@ -1,5 +1,5 @@
 {
-  "name": "react-redux-generator",
+  "name": "dwilt-react-redux-generator",
   "version": "1.0.0",
   "description": "This allows you to generate React and Redux templates from the command line for your project",
   "scripts": {
