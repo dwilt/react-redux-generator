@@ -3,7 +3,18 @@ This is a [CLI](https://en.wikipedia.org/wiki/Command-line_interface) to generat
 
 ## Installation
 
-1. Inside of your React/React Native project, run:
+1. At the root of your React/React Native project, run:
 ```
 yarn add --dev dwilt-react-redux-generator
+```
+
+2. Add this script to `package.json`:
+```json
+{
+  "name": "My Project",
+  "scripts": {
+      // other scripts
+      "generate-react-redux-template": "rrg" 
+  }
+}
 ```
