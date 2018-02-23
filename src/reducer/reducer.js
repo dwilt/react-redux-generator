@@ -32,6 +32,8 @@ const createReducerFunction = (
     prop,
     { simpleReducer, reducerName }
 ) => {
+    prop = prop || reducerName;
+
     const reducerBody = simpleReducer
         ? reducerName
         : `({\n        ...st,\n        ${prop},\n    })`;

@@ -10,7 +10,7 @@ const getActionCreatorExport = (actionName, prop) =>
 const createAction = (prop, reducerName) => {
     const actionName = createActionString(prop, reducerName);
 
-    return getActionCreatorExport(actionName, prop);
+    return getActionCreatorExport(actionName, prop || reducerName);
 };
 
 const getActionCreators = ({
