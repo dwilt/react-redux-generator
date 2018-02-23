@@ -10,8 +10,10 @@ const getReselectImport = () => {
     return getImportStatement([`createSelector`], `reselect`);
 };
 
-const getReducerSelector = ({ reducerName }) => {
-    return `const ${reducerName}Selector = state => state.${reducerName};\n\n`;
+const getReducerSelector = ({ reducerName, simpleReducer }) => {
+    const exportPrefix = simpleReducer ? `export ` : ``;
+
+    return `${exportPrefix}const ${reducerName}Selector = state => state.${reducerName};\n\n`;
 };
 
 const getPropSelectors = ({ reducerName, initialStateObject }) => {
@@ -44,6 +46,7 @@ const createSelectorsFile = ({
 }) => {
     let content = `${getReducerSelector({
         reducerName,
+        simpleReducer,
     })}`;
 
     if (!simpleReducer) {
