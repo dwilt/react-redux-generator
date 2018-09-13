@@ -1,11 +1,12 @@
-import { connect } from 'react-redux';
+import { connect } from "react-redux";
 
-import {} from 'selectors';
+import {} from "selectors";
 
-import {} from 'store/';
+import {} from "store/";
 
-import COMPONENT_NAME from './COMPONENT_NAME.component';
+import COMPONENT_NAME from "./COMPONENT_NAME.component";
 
-export default connect((st) => {
-    return {};
-}, {})(COMPONENT_NAME);
+export default connect(
+  st => ({}),
+  {}
+)(COMPONENT_NAME);

@@ -1,21 +1,17 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent } from "react";
 
-import { View } from 'react-native';
+import { View } from "react-native";
 
-import {
+import {} from "components";
 
-} from 'components';
+import styles from "./COMPONENT_NAME.styles";
 
-import PropTypes from 'prop-types';
+type Props = {};
 
-import styles from './COMPONENT_NAME.styles.js';
+export default class COMPONENT_NAME extends PureComponent<Props> {
+  render() {
+    const {} = this.props;
 
-export default class COMPONENT_NAME extends PureComponent {
-    static propTypes = {};
-
-    render() {
-        const {} = this.props;
-
-        return <View style={styles.container}>COMPONENT_NAME</View>;
-    }
+    return <View style={styles.container}>COMPONENT_NAME</View>;
+  }
 }

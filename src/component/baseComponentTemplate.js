@@ -1,19 +1,15 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent } from "react";
 
-import PropTypes from 'prop-types';
+import {} from "components";
 
-import {
+import "./COMPONENT_NAME.css";
 
-} from 'components';
+type Props = {};
 
-import './COMPONENT_NAME.css';
+export default class COMPONENT_NAME extends PureComponent<Props> {
+  render() {
+    const {} = this.props;
 
-export default class COMPONENT_NAME extends PureComponent {
-    static propTypes = {};
-
-    render() {
-        const {} = this.props;
-
-        return <div className={`COMPONENT_NAME`}>COMPONENT_NAME</div>;
-    }
+    return <div className={`COMPONENT_NAME`}>COMPONENT_NAME</div>;
+  }
 }

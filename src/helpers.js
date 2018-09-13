@@ -6,7 +6,7 @@ const path = require(`path`);
 
 const { camelToSnakeCase } = require(`json-style-converter`);
 
-const createObjectString = (lines) => {
+const createObjectString = lines => {
     const linesString = lines.reduce((currentString, line, i) => {
         let lineString = `${line}`;
 
@@ -22,7 +22,7 @@ const createObjectString = (lines) => {
     return `{\n${linesString}\n}`;
 };
 
-const capitalizeFirstChar = (string) =>
+const capitalizeFirstChar = string =>
     string.charAt(0).toUpperCase() + string.substring(1);
 
 const getImportStatement = (imports = [], file) => {
@@ -33,7 +33,7 @@ const createFile = async (folder, filename, content) => {
     return new Promise((resolve, reject) => {
         const fullpath = path.join(process.cwd(), folder);
 
-        mkdirp(fullpath, (err) => {
+        mkdirp(fullpath, err => {
             if (err) {
                 reject(err);
             }
@@ -43,7 +43,7 @@ const createFile = async (folder, filename, content) => {
     });
 };
 
-const getFileContents = (filePath) => {
+const getFileContents = filePath => {
     return new Promise((resolve, reject) => {
         readFile(filePath, `utf8`, (err, data) => {
             if (err) {
@@ -55,7 +55,7 @@ const getFileContents = (filePath) => {
     });
 };
 
-const getFolderContent = (folderPath) => {
+const getFolderContent = folderPath => {
     return new Promise((resolve, reject) => {
         readdir(folderPath, (err, files) => {
             if (err) {
@@ -67,43 +67,43 @@ const getFolderContent = (folderPath) => {
     });
 };
 
-const getFolderNames = async (parentFolder) => {
+const getFolderNames = async parentFolder => {
     const files = await getFolderContent(parentFolder);
 
-    return files.filter((source) =>
+    return files.filter(source =>
         lstatSync(`${parentFolder}/${source}`).isDirectory()
     );
 };
 
-const getFileNames = async (parentFolder) => {
+const getFileNames = async parentFolder => {
     const files = await getFolderContent(parentFolder);
 
     return files.filter(
-        (source) => !lstatSync(`${parentFolder}/${source}`).isDirectory()
+        source => !lstatSync(`${parentFolder}/${source}`).isDirectory()
     );
 };
 
-const getExportAllString = (folder) => `export * from './${folder}';`;
+const getExportAllString = folder => `export * from './${folder}';`;
 
-const convertCamelToConstant = (string) => {
+const convertCamelToConstant = string => {
     let copy = string;
     copy[0] = copy[0].toLowerCase();
 
     return camelToSnakeCase(copy).toUpperCase();
 };
 
-const createFolderIndexFiles = async (parentFolder) => {
+const createFolderIndexFiles = async parentFolder => {
     const folders = await getFolderNames(parentFolder);
 
     if (folders.length) {
-        const filename = `index.js`;
+        const filename = `index.tsx`;
         const content = folders.reduce((current, folderName) => {
             return current + `export * from './${folderName}';\n`;
         }, ``);
 
         await createFile(parentFolder, filename, content);
 
-        folders.forEach((folder) => {
+        folders.forEach(folder => {
             const folderPath = path.join(parentFolder, folder);
 
             createFolderIndexFiles(folderPath);
